@@ -14,6 +14,10 @@
     "type": "git",
     "url": "https://github.com/mickrubashkin/weather-cli.git"
   },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "author": "Mick Rubashkin mikhail.rubashkin@gmail.com",
   "license": "ISC",
   "devDependencies": {
