@@ -1,5 +1,9 @@
 import fs from 'node:fs/promises';
 
+import * as dotenv from 'dotenv';
+
+dotenv.config();
+
 const isFileExists = async (path) => {
   try {
     await fs.access(path);
@@ -15,7 +19,7 @@ const getWeatherData = async ({
   const url = new URL('https://api.openweathermap.org/data/2.5/weather');
   const params = new URLSearchParams({
     mode,
-    appid: process.env.API_KEY ?? '',
+    appid: process.env.WEATHER_API_KEY ?? '',
   });
 
   if (city) {
@@ -31,13 +35,40 @@ const getWeatherData = async ({
   return response.text();
 };
 
+const getLocationByIP = async () => {
+  const url = new URL('https://ipinfo.io/json');
+  const params = new URLSearchParams({
+    token: process.env.IP_API_KEY ?? '',
+  });
+
+  url.search = params.toString();
+
+  const response = await fetch('https://ipinfo.io/json?token=a5f460426eb72e');
+  const jsonResponse = await response.json();
+
+  return jsonResponse;
+};
+
 export default async (options) => {
   const {
-    city, lat, lon, mode, output, force,
+    city,
+    lat,
+    lon,
+    mode,
+    output,
+    force,
+    current,
   } = options;
 
+  let [latitude, longitude] = [lat, lon];
+
+  if (current) {
+    const currentLocation = await getLocationByIP();
+    [latitude, longitude] = currentLocation.loc.split(',');
+  }
+
   const weather = await getWeatherData({
-    city, lat, lon, mode,
+    city, lat: latitude, lon: longitude, mode,
   });
 
   if (await isFileExists(output) && !force) {

@@ -26,6 +26,7 @@
     "eslint-plugin-import": "^2.27.5"
   },
   "dependencies": {
+    "dotenv": "^16.0.3",
     "yargs": "^17.7.1"
   }
 }

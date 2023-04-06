@@ -47,6 +47,9 @@ yargs(hideBin(process.argv))
       type: 'boolean',
       default: false,
     },
+    current: {
+      description: 'Get weather by current location',
+    },
   })
   .example([
     ['$0 --lat=39.45 --lon=45.23', 'Get weather for coordinates'],
