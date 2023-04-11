@@ -43,7 +43,7 @@ const getLocationByIP = async () => {
 
   url.search = params.toString();
 
-  const response = await fetch('https://ipinfo.io/json?token=a5f460426eb72e');
+  const response = await fetch(url);
   const jsonResponse = await response.json();
 
   return jsonResponse;
